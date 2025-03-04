@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiberVentura</title>
+
+    <!-- Adicionar o Phaser -->
+    <script src = "https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+
+    <!-- Adicionar o estilo -->
+    <style>
+        /* Estilização do body */
+        body {
+            display: flex; 
+            align-items: center;
+            justify-content: justify;
+            height: 100 vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        //Configurações básicas
+        var config = {
+            type: Phaser.AUTO, //tipo de renderização
+            width: 800, //largura da tela
+            height: 600, //altura da tela
+            //parent: "game", //define o elemento HTML que o jogo sera renderizado
+            scene: [inicial, ciberventura, gameOver] //definição das cenas presentes
+        }
+
+        var game = new Phaser.Game(config); //cria um novo jogo a partir das configurações definidas
+        game.scene.start('inicial'); //define qual vai ser a cena incial
+    </script>
+    
+</body>
+</html>

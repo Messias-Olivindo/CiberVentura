@@ -7,6 +7,9 @@
 
     <!-- Adicionar o Phaser -->
     <script src = "https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <script src = "scenes/inicial.js"></script>
+    <script src = "scenes/ciberventura.js"></script>
+    <script src = "scenes/gameOver.js"></script>
 
     <!-- Adicionar o estilo -->
     <style>
@@ -21,18 +24,22 @@
     </style>
 </head>
 <body>
-    <script>
+    <script type = "text/javascript">
         //Configurações básicas
         var config = {
             type: Phaser.AUTO, //tipo de renderização
             width: 800, //largura da tela
             height: 600, //altura da tela
-            //parent: "game", //define o elemento HTML que o jogo sera renderizado
-            scene: [inicial, ciberventura, gameOver] //definição das cenas presentes
+            backgroundColor: '#39addd', //cor de fundo da tela
+            dom: {
+                createContainer: true, //Permite a criação de elementos html na prórpia cena
+            },
+            scene: [Inicial, CiberVentura, GameOver], //definição das cenas presentes, usar o nome da classe
         }
 
         var game = new Phaser.Game(config); //cria um novo jogo a partir das configurações definidas
-        game.scene.start('inicial'); //define qual vai ser a cena incial
+        game.scene.start('inicial'); //define qual vai ser a cena incial, usar nome da key
+
     </script>
     
 </body>

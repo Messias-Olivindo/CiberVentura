@@ -1,10 +1,14 @@
 //Definir a cena inicial usando a biblioteca Phaser
-class inicial extends Phaser.Scene{
+class Inicial extends Phaser.Scene {
     //Construtor da cena
-    constructor(){
+    constructor() {
         super({
             key: 'inicial',
             backgroundColor: '#4D6AE8'
         })
+    }
+    create() {
+        console.log("Cena carregada")
+
     }
 }

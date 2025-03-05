@@ -56,25 +56,19 @@ class CiberVentura extends Phaser.Scene {
         this.ponto = this.physics.add.group({
             key: 'pontos',
             repeat: 4, //adicionar 5 pontos coletáveis
-            setXY: { x: 400, y: 300, stepX: 100 }
-        })
-        this.physics.add.collider(this.ponto, this.plataforma);
-        
-        //Player poder pegar pontos
-        this.physics.add.overlap(this.player, this.ponto, () => {
+            setXY: { x: 400, y: 400, stepX: 100 }
+        });
+        this.physics.add.collider(this.ponto, this.plataforma); //colidir com a plataforma
 
+        //Player pode pegar pontos
+        this.physics.add.overlap(this.player, this.ponto, (player, ponto) => {
             //desativar os pontos
-            this.ponto.children.disableBody(true, true);
+            ponto.disableBody(true, true);
 
             //Atualizar placar
             this.pontuacao += 10;
-            this.placar.setText(20, 20, `Pontuação: ${this.pontuacao}`, {
-                fontSize: '25px',
-                fontFamily: 'glitchRobot',
-                fill: '#211C84'
-            })
-        }
-            , null, this);
+            this.placar.setText(`Pontuação: ${this.pontuacao}`); //setText apenas atualiza o texto
+        }, null, this);
 
         //Definir os limites da camera
         // this.cameras.main.setBounds(0, 0, this.mapa.widthInPixels, this.mapa.heigthInPixels);

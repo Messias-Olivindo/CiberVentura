@@ -3,8 +3,7 @@ class Inicial extends Phaser.Scene {
     //Construtor da cena
     constructor() {
         super({
-            key: 'inicial',
-            backgroundColor: '#4D6AE8'
+            key: 'inicial'
         })
     }
 

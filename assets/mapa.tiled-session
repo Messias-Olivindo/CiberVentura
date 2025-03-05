@@ -3,17 +3,75 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "mapas/mapa1.json",
     "expandedProjectPaths": [
+        "mapas",
+        "."
     ],
     "file.lastUsedOpenFilter": "Todos os Ficheiros (*)",
     "fileStates": {
+        "Tileset.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "mapa1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 804,
+                "y": 382.66666666666663
+            }
+        },
+        "mapas/Tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "mapas/mapa1.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -5866.5,
+                "y": 861.5
+            }
+        },
+        "mapas/mapa1.tmx": {
+            "scale": 0.5769825918762089,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 522.5460945357023,
+                "y": -345.764331210191
+            }
+        },
+        "sem título.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 361.3333333333333,
+                "y": 375.33333333333326
+            }
+        }
     },
-    "last.imagePath": "C:/Users/Inteli/Desktop/CiberVentura/assets/tileset/plataformas",
+    "last.exportedFilePath": "C:/Users/Inteli/Desktop/CiberVentura/assets/mapas",
+    "last.externalTilesetPath": "C:/Users/Inteli/Desktop/CiberVentura/assets/mapas",
+    "last.imagePath": "C:/Users/Inteli/Desktop/CiberVentura/assets/mapas",
+    "map.fixedSize": true,
+    "map.lastUsedExportFilter": "Arquivos de mapa JSON (*.tmj *.json)",
+    "map.lastUsedFormat": "json",
     "openFiles": [
+        "mapas/mapa1.json",
+        "mapas/Tileset.tsx"
     ],
     "project": "mapa.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
+        "mapas/Tileset.tsx",
+        "mapas/mapa1.json",
+        "mapas/mapa1.tmx",
+        "sem título.tmx",
+        "Tileset.tsx",
+        "mapa1.tmx"
     ],
+    "tileset.embedInMap": true,
+    "tileset.lastUsedFilter": "Ficheiros de conjunto de tiles Tiled (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx"
 }

@@ -12,7 +12,7 @@
     <script src = "scenes/gameOver.js"></script>
 
     <!-- Adicionar o estilo -->
-    <style>
+    <style media = 'screen' type = 'text/css'>
         /* Estilização do body */
         body {
             display: flex; 
@@ -21,9 +21,20 @@
             height: 100 vh;
             margin: 0;
         }
+
+        /* Adicionar uma fonte local */
+        @font-face {
+            font-family: glitchRobot;
+            src: url(../assets/font/Sdglitchrobotdemo-GOPdO.ttf);
+            font-weight: 400;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
+    <!-- Adicionar uma div para carregar a fonte -->
+    <div style="font-family:glitchRobot; position:absolute; left:-1000px; visibility:hidden;">.</div>
+
     <script type = "text/javascript">
         //Configurações básicas
         var config = {
@@ -31,6 +42,10 @@
             width: 800, //largura da tela
             height: 600, //altura da tela
             backgroundColor: '#39addd', //cor de fundo da tela
+            scale: {
+                mode: Phaser.Scale.FIT //Ajustar para caber na tela sem distorcer
+            },
+            autoCenter: Phaser.Scale.CENTER, //centralizar a tela de jogo
             dom: {
                 createContainer: true, //Permite a criação de elementos html na prórpia cena
             },

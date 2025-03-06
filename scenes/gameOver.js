@@ -6,5 +6,5 @@ class GameOver extends Phaser.Scene {
             key: 'gameOver',
         })
     }
-
+    
 }

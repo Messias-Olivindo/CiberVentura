@@ -22,7 +22,21 @@ class CiberVentura extends Phaser.Scene {
         this.load.tilemapTiledJSON('mapaTeste', "../assets/mapas/mapaTeste.json");
 
         //Carregar os pontos
-        this.load.spritesheet('pontos', "../assets/pontos.png", { frameWidth: 21, frameHeigth: 7 })
+        this.load.spritesheet('pontos', "../assets/pontos.png", { frameWidth: 21, frameHeigth: 7 });
+
+        //Carregar os sprites dos inimigos
+        //Usando laço de repetição
+        this.robos = ['robo1','robo2','robo3'];
+        this.caminhoRobo = ["robo1Camin","robo2Camin","robo3Camin"];
+        for(let i = 0; i<this.robos.length; i++){
+            this.teste = this.load.spritesheet(this.robos[i], "../assets/robos/"+this.caminhoRobo[i]+".png", {frameWidth: 128, frameHeigth: 128});
+            console.log(this.teste);
+
+        }
+        // this.load.spritesheet('robo1', "../assets/robos/Destroyer/Walk.png");
+        // this.load.spritesheet('robo2', "../assets/robos/Infantryman/Walk.png");
+        // this.load.spritesheet('robo3', "../assets/robos/Swordsman/Pick_Up.png");
+
     }
 
     //Adicionar os elementos
@@ -56,9 +70,31 @@ class CiberVentura extends Phaser.Scene {
         this.ponto = this.physics.add.group({
             key: 'pontos',
             repeat: 4, //adicionar 5 pontos coletáveis
-            setXY: { x: 400, y: 400, stepX: 100 }
+            setXY: { x: 400, y: 400, stepX: 90 }
         });
         this.physics.add.collider(this.ponto, this.plataforma); //colidir com a plataforma
+
+        //Adicionar os inimigos
+        this.inimigo = this.physics.add.sprite(750, 400);
+        this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
+
+        //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
+        this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) =>{
+            //Matar inimigo
+            if(inimigo.body.touching.up && !inimigo.hit){ //precisa ser tocado na parte de cima e não ser acertado nos lados
+                inimigo.disableBody(false,false); //desativar o inimigo
+                player.setVelocityY(-400);
+            }
+
+            //Matar player
+            else{
+                player.disableBody(false, false); //desativar o player
+                //Mover para a cena gameOver
+                //this.scene.start('gameOver', this.game);
+
+            }
+
+        }, null, this);
 
         //Player pode pegar pontos
         this.physics.add.overlap(this.player, this.ponto, (player, ponto) => {
@@ -70,23 +106,26 @@ class CiberVentura extends Phaser.Scene {
             this.placar.setText(`Pontuação: ${this.pontuacao}`); //setText apenas atualiza o texto
         }, null, this);
 
+        //Adicionar inimigos
+        
+
         //Definir os limites da camera
         // this.cameras.main.setBounds(0, 0, this.mapa.widthInPixels, this.mapa.heigthInPixels);
         // //this.cameras.main.startFollow(this.player); //seguir o jogador
         // if( this.player.x === 300 ){
         //     this.cameras.main.scrollX(300);
         // }
-
-    }
-
-    //Adicionar as ações do jogo
-    update() {
+        
         //Adicionar as setas
         this.teclado = this.input.keyboard.createCursorKeys();
         //Adicionar a teclas WASD
         this.teclaA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.teclaW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.teclaD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    }
+
+    //Adicionar as ações do jogo
+    update() {
 
         //Adicionar a movimentação
         //Eixo X
@@ -104,7 +143,6 @@ class CiberVentura extends Phaser.Scene {
             this.player.setVelocityY(-400);
         }
         else { }
-        console.log(this.pontuacao);
 
     }
 }

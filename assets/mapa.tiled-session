@@ -3,13 +3,16 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "mapas/mapa1.json",
+    "activeFile": "mapas/mapaTeste.tmj",
     "expandedProjectPaths": [
-        "mapas",
-        "."
+        ".",
+        "mapas"
     ],
     "file.lastUsedOpenFilter": "Todos os Ficheiros (*)",
     "fileStates": {
+        "": {
+            "scaleInEditor": 1
+        },
         "Tileset.tsx": {
             "scaleInDock": 2,
             "scaleInEditor": 1
@@ -42,6 +45,17 @@
                 "y": -345.764331210191
             }
         },
+        "mapas/mapaTeste.tmj": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 401.9999999999999,
+                "y": 241.99999999999994
+            }
+        },
+        "mapas/mapaTeste.tmj#tileset": {
+            "scaleInDock": 1
+        },
         "sem título.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
@@ -58,12 +72,12 @@
     "map.lastUsedExportFilter": "Arquivos de mapa JSON (*.tmj *.json)",
     "map.lastUsedFormat": "json",
     "openFiles": [
-        "mapas/mapa1.json",
-        "mapas/Tileset.tsx"
+        "mapas/mapaTeste.tmj"
     ],
     "project": "mapa.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "mapas/mapaTeste.tmj",
         "mapas/Tileset.tsx",
         "mapas/mapa1.json",
         "mapas/mapa1.tmx",

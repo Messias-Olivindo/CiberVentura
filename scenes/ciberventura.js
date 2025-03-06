@@ -26,16 +26,10 @@ class CiberVentura extends Phaser.Scene {
 
         //Carregar os sprites dos inimigos
         //Usando laço de repetição
-        this.robos = ['robo1','robo2','robo3'];
-        this.caminhoRobo = ["robo1Camin","robo2Camin","robo3Camin"];
-        for(let i = 0; i<this.robos.length; i++){
-            this.teste = this.load.spritesheet(this.robos[i], "../assets/robos/"+this.caminhoRobo[i]+".png", {frameWidth: 128, frameHeigth: 128});
-            console.log(this.teste);
-
+        this.robos = ['robo1', 'robo2', 'robo3'];
+        for (let i = 0; i < this.robos.length; i++) {
+            this.load.spritesheet(this.robos[i], "../assets/robos/" + this.robos[i] + "Camin.png", { frameWidth: 128, frameHeigth: 128 });
         }
-        // this.load.spritesheet('robo1', "../assets/robos/Destroyer/Walk.png");
-        // this.load.spritesheet('robo2', "../assets/robos/Infantryman/Walk.png");
-        // this.load.spritesheet('robo3', "../assets/robos/Swordsman/Pick_Up.png");
 
     }
 
@@ -66,36 +60,44 @@ class CiberVentura extends Phaser.Scene {
             fill: '#211C84'
         })
 
+
+        //Adicionar os inimigos
+        //Usando laço de repetição
+        // for (let i = 0; i < this.robos.length; i++){
+        //     this.inimigo[i] = this.physics.add.sprite();
+        // }
+        this.aparecerNovosInimigos = true;
+        if (this.aparecerNovosInimigos === true) {
+            this.inimigo = this.physics.add.sprite(750, 400, 'nome');
+            this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
+            this.aparecerNovosInimigos = false;
+        }
+
+        //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
+        // this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) => {
+        //     //Matar inimigo
+        //     if (inimigo.body.touching.up && !inimigo.hit) { //precisa ser tocado na parte de cima e não ser acertado nos lados
+        //         inimigo.disableBody(false, false); //desativar o inimigo
+        //         player.setVelocityY(-400);
+        //     }
+
+        //     //Matar player
+        //     else {
+        //         player.disableBody(false, false); //desativar o player
+        //         //Mover para a cena gameOver
+        //         //this.scene.start('gameOver', this.game);
+
+        //     }
+
+        // }, null, this);
+
         //Adicionar os pontos coletáveis
         this.ponto = this.physics.add.group({
             key: 'pontos',
             repeat: 4, //adicionar 5 pontos coletáveis
-            setXY: { x: 400, y: 400, stepX: 90 }
+            setXY: { x: 400, y: 400, stepX: 80 }
         });
         this.physics.add.collider(this.ponto, this.plataforma); //colidir com a plataforma
-
-        //Adicionar os inimigos
-        this.inimigo = this.physics.add.sprite(750, 400);
-        this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
-
-        //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
-        this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) =>{
-            //Matar inimigo
-            if(inimigo.body.touching.up && !inimigo.hit){ //precisa ser tocado na parte de cima e não ser acertado nos lados
-                inimigo.disableBody(false,false); //desativar o inimigo
-                player.setVelocityY(-400);
-            }
-
-            //Matar player
-            else{
-                player.disableBody(false, false); //desativar o player
-                //Mover para a cena gameOver
-                //this.scene.start('gameOver', this.game);
-
-            }
-
-        }, null, this);
-
         //Player pode pegar pontos
         this.physics.add.overlap(this.player, this.ponto, (player, ponto) => {
             //desativar os pontos
@@ -104,10 +106,12 @@ class CiberVentura extends Phaser.Scene {
             //Atualizar placar
             this.pontuacao += 10;
             this.placar.setText(`Pontuação: ${this.pontuacao}`); //setText apenas atualiza o texto
+
         }, null, this);
 
         //Adicionar inimigos
-        
+
+
 
         //Definir os limites da camera
         // this.cameras.main.setBounds(0, 0, this.mapa.widthInPixels, this.mapa.heigthInPixels);
@@ -115,7 +119,7 @@ class CiberVentura extends Phaser.Scene {
         // if( this.player.x === 300 ){
         //     this.cameras.main.scrollX(300);
         // }
-        
+
         //Adicionar as setas
         this.teclado = this.input.keyboard.createCursorKeys();
         //Adicionar a teclas WASD
@@ -144,5 +148,36 @@ class CiberVentura extends Phaser.Scene {
         }
         else { }
 
+        //Adicionar inimigo e pontos quando acabar os pontos
+        if (this.ponto.countActive(true) === 0) {
+            this.ponto.children.iterate((ponto) => {
+                ponto.enableBody(true, ponto.x, 0, true, true); //Aparecer novos pontos
+                this.aparecerNovosInimigos = true;
+            })
+        }
+
+        if (this.aparecerNovosInimigos === true) {
+            this.inimigo = this.physics.add.sprite(750, 400, 'nome');
+            this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
+            this.aparecerNovosInimigos = false;
+        }
+
+        //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
+        this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) => {
+            //Matar inimigo
+            if (inimigo.body.touching.up && !inimigo.hit) { //precisa ser tocado na parte de cima e não ser acertado nos lados
+                inimigo.disableBody(false, false); //desativar o inimigo
+                player.setVelocityY(-400);
+            }
+
+            //Matar player
+            else {
+                player.disableBody(false, false); //desativar o player
+                //Mover para a cena gameOver
+                //this.scene.start('gameOver', this.game);
+
+            }
+
+        }, null, this);
     }
 }

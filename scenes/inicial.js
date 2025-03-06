@@ -48,6 +48,7 @@ class Inicial extends Phaser.Scene {
                 fontFamily: 'glitchRobot'
             }
         ).setOrigin(0.5);
+        
 
     }
 

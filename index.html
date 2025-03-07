@@ -35,6 +35,9 @@
 <body>
     <!-- Adicionar uma div para carregar a fonte -->
     <div style="font-family:glitchRobot; position:absolute; left:-1000px; visibility:hidden;">.</div>
+    <script src = "../scenes/inicial.js"></script>
+    <script src = "../scenes/ciberventura.js"></script>
+    <script src = "../scenes/gameOver.js"></script>
 
     <!-- Adicionar o script -->
     <script type = "text/javascript">
@@ -45,9 +48,10 @@
             height: 600, //altura da tela
             backgroundColor: '#39addd', //cor de fundo da tela
             scale: {
-                mode: Phaser.Scale.FIT //Ajustar para caber na tela sem distorcer
+                mode: Phaser.Scale.FIT, //Ajustar para caber na tela sem distorcer
+                autoCenter: Phaser.Scale.CENTER, //centralizar a tela de jogo
             },
-            autoCenter: Phaser.Scale.CENTER, //centralizar a tela de jogo
+            
             dom: {
                 createContainer: true, //Permite a criação de elementos html na prórpia cena
             },

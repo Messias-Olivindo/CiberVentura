@@ -25,7 +25,7 @@ class CiberVentura extends Phaser.Scene {
         this.load.spritesheet('pontos', "../assets/pontos.png", { frameWidth: 21, frameHeigth: 7 });
 
         //Carregar o player
-        this.load.spritesheet('jogadora', "../assets/personagens/jogadoraSpritesheet.png",{ frameWidth: 47, frameHeigth:48 });
+        this.load.spritesheet('jogadora', "../assets/personagens/jogadoraSpritesheet.png", { frameWidth: 47, frameHeigth: 48 });
 
         //Carregar os sprites dos inimigos
         //Usando laço de repetição
@@ -57,21 +57,27 @@ class CiberVentura extends Phaser.Scene {
         //Animação do player
         this.anims.create({
             key: 'parada',
-            frames: this.anims.generateFrameNumbers('jogadora', {start: 0, end: 3}),
+            frames: this.anims.generateFrameNumbers('jogadora', { start: 0, end: 3 }),
             frameRate: 5,
             repeat: -1
         });
         this.anims.create({
             key: 'pular',
-            frames: this.anims.generateFrameNumbers('jogadora', {start: 4, end: 7}),
-            frameRate: 1,
-            repeat: -1
+            frames: this.anims.generateFrameNumbers('jogadora', { start: 4, end: 7 }),
+            frameRate: 0.5,
+            repeat: 1
         });
         this.anims.create({
             key: 'correr',
-            frames: this.anims.generateFrameNumbers('jogadora', {start:8, end:13}),
+            frames: this.anims.generateFrameNumbers('jogadora', { start: 8, end: 13 }),
             framRate: 10,
             repeat: -1
+        });
+        this.anims.create({
+            key: 'morrer',
+            frames: this.anims.generateFrameNumbers('jogadora', { start: 14, end: 19 }),
+            frameRate: 0.5,
+            repeat: 1
         });
 
         //Adicionar os inimigos aleatoriamente
@@ -143,13 +149,13 @@ class CiberVentura extends Phaser.Scene {
         //Eixo X
         if (this.teclado.left.isDown || this.teclaA.isDown) {
             this.player.setVelocityX(-150);
-            this.player.setFlip(true,false);
+            this.player.setFlip(true, false);
             this.player.anims.play('correr', true);
-            
+
         }
         else if (this.teclado.right.isDown || this.teclaD.isDown) {
             this.player.setVelocityX(150);
-            this.player.setFlip(false,false);
+            this.player.setFlip(false, false);
             this.player.anims.play('correr', true);
         }
         else {
@@ -162,12 +168,12 @@ class CiberVentura extends Phaser.Scene {
         }
         else { }
         //animação de pulo
-        if(!this.player.body.blocked.down){
+        if (!this.player.body.blocked.down) {
             this.player.anims.play('pular', true);
         }
 
-        //Adicionar novos pontos e permitir adicionar novos inimigos
-        if (this.ponto.countActive(true) === 0) {
+        //Adicionar novos pontos e permitir adicionar novos inimigos, somente se os pontos acabarem e o inimgo estiver morto
+        if (this.ponto.countActive(true) === 0 && this.inimigo.body.enable === false) {
             this.ponto.children.iterate((ponto) => {
                 ponto.enableBody(true, ponto.x, 0, true, true); //Aparecer novos pontos
                 this.aparecerNovosInimigos = true;
@@ -177,12 +183,12 @@ class CiberVentura extends Phaser.Scene {
         if (this.aparecerNovosInimigos === true) {
             //Lógica de local de nascimento de inimigos
             //this.meioBatalha = 410 + (780-410)/2; //variável para guardar o meio do local onde o player pega os pontos e mata inimigos
-            if(this.player.x < 780 || this.player.x > 595){
+            if (this.player.x < 780 || this.player.x > 595) {
                 this.nascerInimigoX = 410;
                 console.log(1);
                 console.log(this.player.x);
             }
-            if(this.player > 300 || this.player.x < 595){
+            if (this.player > 300 || this.player.x < 595) {
                 this.nascerInimigoX = 780;
                 console.log(2);
             }
@@ -203,7 +209,7 @@ class CiberVentura extends Phaser.Scene {
         }
         if (this.inimigo.x <= 780 && this.ida === true) {
             this.inimigo.setVelocityX(-this.velocidade);
-            this.inimigo.setFlip(true,false);
+            this.inimigo.setFlip(true, false);
             this.inimigo.anims.play('caminhar', true);
 
         }
@@ -218,6 +224,11 @@ class CiberVentura extends Phaser.Scene {
             this.inimigo.anims.play('caminhar', true);
         }
 
+        //Animação de morrer
+        if (this.player.enableBody === false) {
+            this.player.anims.play('morrer', true);
+            this.console.log("aqui");
+        }
         //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre. Dever ser atualizado assim que adicionar novos inimigos -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
         this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) => {
             //Matar inimigo
@@ -229,11 +240,20 @@ class CiberVentura extends Phaser.Scene {
             //Matar player
             else {
                 player.disableBody(false, false); //desativar o player
-                //Mover para a cena gameOver
-                //this.scene.start('gameOver', this.game); 
+
+                this.time.delayedCall(5000, () => {
+                    if (this.player.body.enable = false) {
+                        this.player.anims.play('morrer', true);
+                    }
+                    this.scene.start('gameOver', this.game);
+                });
+                //Mover para a cena gameOver 
 
             }
 
         }, null, this);
+
+        //Animação de morrer
+
     }
 }

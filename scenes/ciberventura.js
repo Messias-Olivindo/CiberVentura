@@ -24,11 +24,14 @@ class CiberVentura extends Phaser.Scene {
         //Carregar os pontos
         this.load.spritesheet('pontos', "../assets/pontos.png", { frameWidth: 21, frameHeigth: 7 });
 
+        //Carregar o player
+        this.load.spritesheet('jogadora', "../assets/personagens/jogadoraSpritesheet.png",{ frameWidth: 47, frameHeigth:48 });
+
         //Carregar os sprites dos inimigos
         //Usando laço de repetição
-        this.robos = ['robo1', 'robo2', 'robo3'];
+        this.robos = ['robo1', 'robo2'];
         for (let i = 0; i < this.robos.length; i++) {
-            this.load.spritesheet(this.robos[i], "../assets/robos/" + this.robos[i] + "Camin.png", { frameWidth: 128, frameHeigth: 128 });
+            this.load.spritesheet(this.robos[i], "../assets/robos/" + this.robos[i] + "Camin.png", { frameWidth: 1024 / 8, frameHeight: 81 });
         }
 
     }
@@ -48,9 +51,45 @@ class CiberVentura extends Phaser.Scene {
         // this.cameras.main.startFollow(this.player);
 
         //Adicionar o player
-        this.player = this.physics.add.sprite(100, 0, 'oi');
+        this.player = this.physics.add.sprite(100, 0, 'jogadora');
         this.player.setCollideWorldBounds(true); //colisão com limites
         this.physics.add.collider(this.player, this.plataforma); //colisão entre player e plataformas
+        //Animação do player
+        this.anims.create({
+            key: 'parada',
+            frames: this.anims.generateFrameNumbers('jogadora', {start: 0, end: 3}),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'pular',
+            frames: this.anims.generateFrameNumbers('jogadora', {start: 4, end: 7}),
+            frameRate: 1,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'correr',
+            frames: this.anims.generateFrameNumbers('jogadora', {start:8, end:13}),
+            framRate: 10,
+            repeat: -1
+        });
+
+        //Adicionar os inimigos aleatoriamente
+        this.numAleat = Phaser.Math.Between(0, 1);
+        this.inimigo = this.physics.add.sprite(780, 400, this.robos[this.numAleat]).setSize(40);
+        //this.inimigo = this.physics.add.sprite(750, 400, 'nome');
+        this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
+        this.aparecerNovosInimigos = false; //atributo para controlar o aparecimento de inimigos
+        this.velocidade = 100;//velocidade do inimigo inicialmente
+        //Animação do inimigo com laço
+        for (let i = 0; i < this.robos.length; i++) {
+            this.anims.create({
+                key: 'caminhar',
+                frames: this.anims.generateFrameNumbers(this.robos[i], { start: 0, end: 7 }),
+                frameRate: 10,
+                repeat: -1
+            });
+        }
 
         //Adicionar placar
         this.pontuacao = 0;
@@ -61,35 +100,6 @@ class CiberVentura extends Phaser.Scene {
         })
 
 
-        //Adicionar os inimigos
-        //Usando laço de repetição
-        // for (let i = 0; i < this.robos.length; i++){
-        //     this.inimigo[i] = this.physics.add.sprite();
-        // }
-        this.aparecerNovosInimigos = true;
-        if (this.aparecerNovosInimigos === true) {
-            this.inimigo = this.physics.add.sprite(750, 400, 'nome');
-            this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
-            this.aparecerNovosInimigos = false;
-        }
-
-        //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
-        // this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) => {
-        //     //Matar inimigo
-        //     if (inimigo.body.touching.up && !inimigo.hit) { //precisa ser tocado na parte de cima e não ser acertado nos lados
-        //         inimigo.disableBody(false, false); //desativar o inimigo
-        //         player.setVelocityY(-400);
-        //     }
-
-        //     //Matar player
-        //     else {
-        //         player.disableBody(false, false); //desativar o player
-        //         //Mover para a cena gameOver
-        //         //this.scene.start('gameOver', this.game);
-
-        //     }
-
-        // }, null, this);
 
         //Adicionar os pontos coletáveis
         this.ponto = this.physics.add.group({
@@ -109,10 +119,6 @@ class CiberVentura extends Phaser.Scene {
 
         }, null, this);
 
-        //Adicionar inimigos
-
-
-
         //Definir os limites da camera
         // this.cameras.main.setBounds(0, 0, this.mapa.widthInPixels, this.mapa.heigthInPixels);
         // //this.cameras.main.startFollow(this.player); //seguir o jogador
@@ -126,55 +132,105 @@ class CiberVentura extends Phaser.Scene {
         this.teclaA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.teclaW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.teclaD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+
     }
 
     //Adicionar as ações do jogo
     update() {
 
-        //Adicionar a movimentação
+        //Adicionar a movimentação do player
         //Eixo X
         if (this.teclado.left.isDown || this.teclaA.isDown) {
             this.player.setVelocityX(-150);
+            this.player.setFlip(true,false);
+            this.player.anims.play('correr', true);
+            
         }
         else if (this.teclado.right.isDown || this.teclaD.isDown) {
             this.player.setVelocityX(150);
+            this.player.setFlip(false,false);
+            this.player.anims.play('correr', true);
         }
         else {
             this.player.setVelocityX(0);
+            this.player.anims.play('parada', true);
         }
         //Eixo Y
         if ((this.teclado.up.isDown || this.teclaW.isDown) && this.player.body.blocked.down) { //player só pode pular se estiver no chão, touching.down não estava funcionando por isso foi trocado por blocked.down que é melhor para a mecânica de pulo
             this.player.setVelocityY(-400);
         }
         else { }
+        //animação de pulo
+        if(!this.player.body.blocked.down){
+            this.player.anims.play('pular', true);
+        }
 
-        //Adicionar inimigo e pontos quando acabar os pontos
+        //Adicionar novos pontos e permitir adicionar novos inimigos
         if (this.ponto.countActive(true) === 0) {
             this.ponto.children.iterate((ponto) => {
                 ponto.enableBody(true, ponto.x, 0, true, true); //Aparecer novos pontos
                 this.aparecerNovosInimigos = true;
             })
         }
-
+        //Adicionar inimigos
         if (this.aparecerNovosInimigos === true) {
-            this.inimigo = this.physics.add.sprite(750, 400, 'nome');
+            //Lógica de local de nascimento de inimigos
+            //this.meioBatalha = 410 + (780-410)/2; //variável para guardar o meio do local onde o player pega os pontos e mata inimigos
+            if(this.player.x < 780 || this.player.x > 595){
+                this.nascerInimigoX = 410;
+                console.log(1);
+                console.log(this.player.x);
+            }
+            if(this.player > 300 || this.player.x < 595){
+                this.nascerInimigoX = 780;
+                console.log(2);
+            }
+            //Aumentar a dificuldade
+            this.velocidade += 50;
+            //Adicionar os inimigos aleatoriamente
+            this.numAleat = Phaser.Math.Between(0, 1);
+            this.inimigo = this.physics.add.sprite(this.nascerInimigoX, 400, this.robos[this.numAleat]).setSize(40);
             this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
             this.aparecerNovosInimigos = false;
         }
 
-        //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
+        //Movimentação inimigo
+        if (this.inimigo.x > 775 && this.inimigo.x <= 780) {
+            this.ida = true; //Variável para indicar se está indo ou voltando
+
+
+        }
+        if (this.inimigo.x <= 780 && this.ida === true) {
+            this.inimigo.setVelocityX(-this.velocidade);
+            this.inimigo.setFlip(true,false);
+            this.inimigo.anims.play('caminhar', true);
+
+        }
+        if (this.inimigo.x <= 410 && this.inimigo.x > 405) {
+            this.ida = false;
+
+
+        }
+        if (this.inimigo.x < 780 && this.ida === false) {
+            this.inimigo.setVelocityX(this.velocidade);
+            this.inimigo.setFlip(false, false);
+            this.inimigo.anims.play('caminhar', true);
+        }
+
+        //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre. Dever ser atualizado assim que adicionar novos inimigos -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
         this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) => {
             //Matar inimigo
             if (inimigo.body.touching.up && !inimigo.hit) { //precisa ser tocado na parte de cima e não ser acertado nos lados
-                inimigo.disableBody(false, false); //desativar o inimigo
-                player.setVelocityY(-400);
+                inimigo.disableBody(true, true); //desativar o inimigo
+                player.setVelocityY(-200);
             }
 
             //Matar player
             else {
                 player.disableBody(false, false); //desativar o player
                 //Mover para a cena gameOver
-                //this.scene.start('gameOver', this.game);
+                //this.scene.start('gameOver', this.game); 
 
             }
 

@@ -76,7 +76,7 @@ class CiberVentura extends Phaser.Scene {
         this.anims.create({
             key: 'morrer',
             frames: this.anims.generateFrameNumbers('jogadora', { start: 14, end: 19 }),
-            frameRate: 0.5,
+            frameRate: 1,
             repeat: 1
         });
 
@@ -235,17 +235,17 @@ class CiberVentura extends Phaser.Scene {
             if (inimigo.body.touching.up && !inimigo.hit) { //precisa ser tocado na parte de cima e não ser acertado nos lados
                 inimigo.disableBody(true, true); //desativar o inimigo
                 player.setVelocityY(-200);
+                this.animar = true;
+                console.log("bora")
             }
 
             //Matar player
             else {
                 player.disableBody(false, false); //desativar o player
-
+                this.animar = true;
+                console.log("bora")
                 this.time.delayedCall(5000, () => {
-                    if (this.player.body.enable = false) {
-                        this.player.anims.play('morrer', true);
-                        console.log("aqui");
-                    }
+                
                     this.scene.start('gameOver', this.game);
                 });
                 //Mover para a cena gameOver 
@@ -255,6 +255,12 @@ class CiberVentura extends Phaser.Scene {
         }, null, this);
 
         //Animação de morrer
+        // if (!this.player.body.enable && this.animar === true) {
+        //     this.player.anims.stop();
+        //     this.animar = false;
+        //     this.player.anims.play('morrer', true);
+        //     console.log("aqui");
+        // }
 
     }
 }

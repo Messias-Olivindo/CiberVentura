@@ -244,6 +244,7 @@ class CiberVentura extends Phaser.Scene {
                 this.time.delayedCall(5000, () => {
                     if (this.player.body.enable = false) {
                         this.player.anims.play('morrer', true);
+                        console.log("aqui");
                     }
                     this.scene.start('gameOver', this.game);
                 });

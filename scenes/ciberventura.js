@@ -1,4 +1,5 @@
 class CiberVentura extends Phaser.Scene {
+
     constructor() {
         super({
             key: 'ciberVentura', //nome da cena
@@ -37,7 +38,7 @@ class CiberVentura extends Phaser.Scene {
     }
 
     //Adicionar os elementos
-    create() {
+    create() { 
         //Adicionar o tilemap
         this.mapa = this.make.tilemap({ key: 'mapaTeste' }); //Criar o tilemap. Usar o nome declarado no preload
         this.tileset = this.mapa.addTilesetImage("tileset", "tiles"); //relacionar o tilemap criado para adicionar os tiles utilizados. Usar o nome do tileset declarado no tiled e relacionar com a key da imagem carregada no preload nos argumentos da função
@@ -76,7 +77,14 @@ class CiberVentura extends Phaser.Scene {
 
         //Adicionar os inimigos aleatoriamente
         this.numAleat = Phaser.Math.Between(0, 1);
-        this.inimigo = this.physics.add.sprite(780, 400, this.robos[this.numAleat]).setSize(40);
+        this.inimigos = [];
+        this.inimigos.push(this.physics.add.sprite(780, 400, this.robos[this.numAleat]).setSize(40));
+
+        //Adicionar futuramente
+        // this.inimigos.forEach((inimigo, index) => {
+        //     this.add.image()
+        // });
+
         //this.inimigo = this.physics.add.sprite(750, 400, 'nome');
         this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
         this.aparecerNovosInimigos = false; //atributo para controlar o aparecimento de inimigos
@@ -190,7 +198,7 @@ class CiberVentura extends Phaser.Scene {
             this.velocidade += 50;
             //Adicionar os inimigos aleatoriamente
             this.numAleat = Phaser.Math.Between(0, 1);
-            this.inimigo = this.physics.add.sprite(this.nascerInimigoX, 400, this.robos[this.numAleat]).setSize(40);
+            this.inimigos.push( this.physics.add.sprite(this.nascerInimigoX, 400, this.robos[this.numAleat])).setSize(40);
             this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
             this.aparecerNovosInimigos = false;
         }

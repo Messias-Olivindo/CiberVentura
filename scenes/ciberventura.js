@@ -22,10 +22,10 @@ class CiberVentura extends Phaser.Scene {
         this.load.tilemapTiledJSON('mapaTeste', "../assets/mapas/mapaTeste.json");
 
         //Carregar os pontos
-        this.load.spritesheet('pontos', "../assets/pontos.png", { frameWidth: 21, frameHeigth: 7 });
+        this.load.spritesheet('pontos', "../assets/pontos.png", { frameWidth: 21, frameHeight: 7 });
 
         //Carregar o player
-        this.load.spritesheet('jogadora', "../assets/personagens/jogadoraSpritesheet.png", { frameWidth: 47, frameHeigth: 48 });
+        this.load.spritesheet('jogadora', "../assets/personagens/jogadoraSpritesheet.png", { frameWidth: 47, frameHeight: 48 });
 
         //Carregar os sprites dos inimigos
         //Usando laço de repetição

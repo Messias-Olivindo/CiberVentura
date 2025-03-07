@@ -22,7 +22,7 @@ class CiberVentura extends Phaser.Scene {
         this.load.tilemapTiledJSON('mapaTeste', "assets/mapas/mapaTeste.json");
 
         //Carregar os pontos
-        this.load.spritesheet('pontos', "assets/pontos.png", { frameWidth: 21, frameHeight: 7 });
+        this.load.spritesheet('ponto', "assets/pontos.png", { frameWidth: 21, frameHeight: 7 });
 
         //Carregar o player
         this.load.spritesheet('jogadora', "assets/personagens/jogadoraSpritesheet.png", { frameWidth: 47, frameHeight: 48 });
@@ -80,6 +80,13 @@ class CiberVentura extends Phaser.Scene {
             repeat: 1
         });
 
+        //Animar pontos
+        this.anims.create({
+            key: 'parado',
+            frames: this.anims.generateFrameNumbers('ponto', {start: 0, end: 2}),
+            frameRate: 10,
+            repeat: -1
+        });
         //Adicionar os inimigos aleatoriamente
         this.numAleat = Phaser.Math.Between(0, 1);
         this.inimigo = this.physics.add.sprite(780, 400, this.robos[this.numAleat]).setSize(40);

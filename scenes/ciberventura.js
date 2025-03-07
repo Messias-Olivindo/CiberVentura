@@ -1,7 +1,7 @@
 class CiberVentura extends Phaser.Scene {
     constructor() {
         super({
-            key: 'ciberVentura', //nome da cena
+            key: 'CiberVentura', //nome da cena
             //  //Adicionar física
             physics: {
                 default: 'arcade',
@@ -246,7 +246,7 @@ class CiberVentura extends Phaser.Scene {
                 console.log("bora")
                 this.time.delayedCall(5000, () => {
                 
-                    this.scene.start('gameOver', this.game);
+                    this.scene.start('GameOver', this.game);
                 });
                 //Mover para a cena gameOver 
 

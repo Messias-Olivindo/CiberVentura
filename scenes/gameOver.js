@@ -3,7 +3,7 @@ class GameOver extends Phaser.Scene {
     //construtor da cena
     constructor(){
         super({
-            key: 'gameOver',
+            key: 'GameOver',
         })
     }
     

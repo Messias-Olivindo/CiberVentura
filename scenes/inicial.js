@@ -9,7 +9,7 @@ class Inicial extends Phaser.Scene {
 
     //Carregar os elementos
     preload() {
-        this.load.image('bgInicio', "assets/bgInicio.png");
+        this.load.image('bgInicio', "../bgInicio.png");
         //this.load.image('logo', "assets/ciberVenturaLogo.png")
     }
 

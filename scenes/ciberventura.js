@@ -17,21 +17,21 @@ class CiberVentura extends Phaser.Scene {
     //Carregar os elementos
     preload() {
         //Carregar o tileset
-        this.load.image('tiles', "assets/mapas/tileset.png");
+        this.load.image('tiles', "../mapas/tileset.png");
         //Carregar o tilemap em JSON
-        this.load.tilemapTiledJSON('mapaTeste', "assets/mapas/mapaTeste.json");
+        this.load.tilemapTiledJSON('mapaTeste', "../mapas/mapaTeste.json");
 
         //Carregar os pontos
-        this.load.spritesheet('pontos', "assets/pontos.png", { frameWidth: 21, frameHeigth: 7 });
+        this.load.spritesheet('pontos', "../pontos.png", { frameWidth: 21, frameHeigth: 7 });
 
         //Carregar o player
-        this.load.spritesheet('jogadora', "assets/personagens/jogadoraSpritesheet.png", { frameWidth: 47, frameHeigth: 48 });
+        this.load.spritesheet('jogadora', "../personagens/jogadoraSpritesheet.png", { frameWidth: 47, frameHeigth: 48 });
 
         //Carregar os sprites dos inimigos
         //Usando laço de repetição
         this.robos = ['robo1', 'robo2'];
         for (let i = 0; i < this.robos.length; i++) {
-            this.load.spritesheet(this.robos[i], "assets/robos/" + this.robos[i] + "Camin.png", { frameWidth: 1024 / 8, frameHeight: 81 });
+            this.load.spritesheet(this.robos[i], "../robos/" + this.robos[i] + "Camin.png", { frameWidth: 1024 / 8, frameHeight: 81 });
         }
 
     }

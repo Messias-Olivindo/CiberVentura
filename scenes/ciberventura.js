@@ -1,3 +1,4 @@
+var pontAnterior;
 class CiberVentura extends Phaser.Scene {
     constructor() {
         super({
@@ -22,22 +23,44 @@ class CiberVentura extends Phaser.Scene {
         this.load.tilemapTiledJSON('mapaTeste', "assets/mapas/mapaTeste.json");
 
         //Carregar os pontos
-        this.load.spritesheet('ponto', "assets/pontos.png", { frameWidth: 21, frameHeight: 7 });
+        this.load.image('ponto', "assets/ponto.png");
 
         //Carregar o player
         this.load.spritesheet('jogadora', "assets/personagens/jogadoraSpritesheet.png", { frameWidth: 47, frameHeight: 48 });
 
         //Carregar os sprites dos inimigos
-        //Usando laço de repetição
+        //Usando laço de repetição e lista
         this.robos = ['robo1', 'robo2'];
         for (let i = 0; i < this.robos.length; i++) {
             this.load.spritesheet(this.robos[i], "assets/robos/" + this.robos[i] + "Camin.png", { frameWidth: 1024 / 8, frameHeight: 81 });
         }
 
+        //Carregar imagens do tutorial
+        this.load.image('direita', "assets/direitaTutorial.png");
+        this.load.image('esquerda', "assets/esquerdaTutorial.png");
+        this.load.image('pular', "assets/pularTutorial.png");
+        this.load.image('matarRobo', "assets/matarRoboTutorial.png");
+        this.load.image('roboPerigo', "assets/roboPerigTutorial.png");
+
+        //Carregar background
+        this.load.image('bgJogo', "assets/bgJogo.png");
+
     }
 
     //Adicionar os elementos
     create() {
+        //Adicionar background
+        this.bgJogo = this.add.tileSprite(this.game.config.width / 2, this.game.config.height/2, (this.game.config.width*2), this.game.config.height, 'bgJogo' );
+
+        //Adicionar imagens do tutorial
+        this.add.image( 190, 400, 'direita').setScale(0.7);
+        this.add.image( 50, 400, 'esquerda').setScale(0.7);
+        this.add.image( 120, 300, 'pular').setScale(0.65);
+        this.add.image( 350, 250, 'matarRobo').setScale(0.65);
+        this.add.image( 275, 255, 'roboPerigo').setScale(0.65);
+        
+        
+        
         //Adicionar o tilemap
         this.mapa = this.make.tilemap({ key: 'mapaTeste' }); //Criar o tilemap. Usar o nome declarado no preload
         this.tileset = this.mapa.addTilesetImage("tileset", "tiles"); //relacionar o tilemap criado para adicionar os tiles utilizados. Usar o nome do tileset declarado no tiled e relacionar com a key da imagem carregada no preload nos argumentos da função
@@ -51,7 +74,7 @@ class CiberVentura extends Phaser.Scene {
         // this.cameras.main.startFollow(this.player);
 
         //Adicionar o player
-        this.player = this.physics.add.sprite(100, 0, 'jogadora');
+        this.player = this.physics.add.sprite(100, 0, 'jogadora').setScale(1.9);
         this.player.setCollideWorldBounds(true); //colisão com limites
         this.physics.add.collider(this.player, this.plataforma); //colisão entre player e plataformas
         //Animação do player
@@ -80,16 +103,10 @@ class CiberVentura extends Phaser.Scene {
             repeat: 1
         });
 
-        //Animar pontos
-        this.anims.create({
-            key: 'parado',
-            frames: this.anims.generateFrameNumbers('ponto', {start: 0, end: 2}),
-            frameRate: 10,
-            repeat: -1
-        });
+
         //Adicionar os inimigos aleatoriamente
         this.numAleat = Phaser.Math.Between(0, 1);
-        this.inimigo = this.physics.add.sprite(780, 400, this.robos[this.numAleat]).setSize(40);
+        this.inimigo = this.physics.add.sprite(770, 400, this.robos[this.numAleat]).setSize(40);
         //this.inimigo = this.physics.add.sprite(750, 400, 'nome');
         this.physics.add.collider(this.plataforma, this.inimigo); //colisão com a plataforma
         this.aparecerNovosInimigos = false; //atributo para controlar o aparecimento de inimigos
@@ -116,7 +133,7 @@ class CiberVentura extends Phaser.Scene {
 
         //Adicionar os pontos coletáveis
         this.ponto = this.physics.add.group({
-            key: 'pontos',
+            key: 'ponto',
             repeat: 4, //adicionar 5 pontos coletáveis
             setXY: { x: 400, y: 400, stepX: 80 }
         });
@@ -146,11 +163,16 @@ class CiberVentura extends Phaser.Scene {
         this.teclaW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.teclaD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
+        
 
     }
 
     //Adicionar as ações do jogo
     update() {
+        //Animar background
+        this.bgJogo.tilePositionX += 0.1;
+        //Animar pontos
+        //for(let i = 0; i < )
 
         //Adicionar a movimentação do player
         //Eixo X
@@ -190,13 +212,13 @@ class CiberVentura extends Phaser.Scene {
         if (this.aparecerNovosInimigos === true) {
             //Lógica de local de nascimento de inimigos
             //this.meioBatalha = 410 + (780-410)/2; //variável para guardar o meio do local onde o player pega os pontos e mata inimigos
-            if (this.player.x < 780 || this.player.x > 595) {
+            if (this.player.x < 770 || this.player.x > 595) {
                 this.nascerInimigoX = 410;
                 console.log(1);
                 console.log(this.player.x);
             }
             if (this.player > 300 || this.player.x < 595) {
-                this.nascerInimigoX = 780;
+                this.nascerInimigoX = 770;
                 console.log(2);
             }
             //Aumentar a dificuldade
@@ -209,7 +231,7 @@ class CiberVentura extends Phaser.Scene {
         }
 
         //Movimentação inimigo
-        if (this.inimigo.x > 775 && this.inimigo.x <= 780) {
+        if (this.inimigo.x > 765 && this.inimigo.x <= 775) {
             this.ida = true; //Variável para indicar se está indo ou voltando
 
 
@@ -220,7 +242,7 @@ class CiberVentura extends Phaser.Scene {
             this.inimigo.anims.play('caminhar', true);
 
         }
-        if (this.inimigo.x <= 410 && this.inimigo.x > 405) {
+        if (this.inimigo.x <= 415 && this.inimigo.x > 405) {
             this.ida = false;
 
 
@@ -243,7 +265,8 @@ class CiberVentura extends Phaser.Scene {
                 inimigo.disableBody(true, true); //desativar o inimigo
                 player.setVelocityY(-200);
                 this.animar = true;
-                console.log("bora")
+                pontAnterior = this.pontuacao;
+                
             }
 
             //Matar player
@@ -251,8 +274,7 @@ class CiberVentura extends Phaser.Scene {
                 player.disableBody(false, false); //desativar o player
                 this.animar = true;
                 console.log("bora")
-                this.time.delayedCall(5000, () => {
-                
+                this.time.delayedCall(2000, () => {
                     this.scene.start('GameOver', this.game);
                 });
                 //Mover para a cena gameOver 

@@ -1,6 +1,6 @@
 # CiberVentura 👾
 
-Link do jogo: <a src="https://messias-olivindo.github.io/CiberVentura/">CiberVentura</a>
+Link do jogo: [CiberVentura](https://messias-olivindo.github.io/CiberVentura/)
 
 
 ## 📖 História

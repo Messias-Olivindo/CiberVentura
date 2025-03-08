@@ -38,7 +38,6 @@ class GameOver extends Phaser.Scene {
             50,
             0x211C84
         )
-            .setOrigin(0.5)
             .setInteractive();
         this.retangulo.on('pointerdown', () => {
             this.scene.start('CiberVentura', this.game);

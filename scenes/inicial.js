@@ -10,7 +10,7 @@ class Inicial extends Phaser.Scene {
     //Carregar os elementos
     preload() {
         this.load.image('bgInicio', "assets/bgInicio.png");
-        //this.load.image('logo', "assets/ciberVenturaLogo.png")
+
     }
 
     //Adicionar os elementos
@@ -32,7 +32,7 @@ class Inicial extends Phaser.Scene {
         );
 
         //Adicionar um retangulo interativo
-        this.retangulo = this.add.rectangle(this.game.config.width / 2, this.game.config.height / 2, 200, 50, 0x211C84).setOrigin(0.5).setInteractive(); //setInteractive indica que o elemento é interativo
+        this.retangulo = this.add.rectangle(this.game.config.width / 2, this.game.config.height / 2, 200, 50, 0x211C84).setInteractive(); //setInteractive indica que o elemento é interativo
         this.retangulo.on('pointerdown', () => { //.on indica o que ocorrerá quando o elemento for clicado, para isso é necessário definir o 'pointerdown' para indicar o evento de clique
             this.scene.start('CiberVentura', this.game); //Iniciar outra cena, sendo que o this.game guarda as informações obtidas nessa cena -uso futuro- 
         });
@@ -48,7 +48,6 @@ class Inicial extends Phaser.Scene {
                 fontFamily: 'glitchRobot'
             }
         ).setOrigin(0.5);
-
 
     }
 

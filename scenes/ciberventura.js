@@ -7,7 +7,7 @@ class CiberVentura extends Phaser.Scene {
             physics: {
                 default: 'arcade',
                 arcade: {
-                    debug: false, //ativar o debug
+                    debug: false,
                     gravity: { y: 400 } //definição da gravidade
                 }
             }
@@ -69,12 +69,8 @@ class CiberVentura extends Phaser.Scene {
         this.plataforma = this.mapa.createLayer("plataforma", this.tileset, 0, 0); //relacionar o tilemap criado para chamar a função e criar uma camada. Declarar um nome para a camada e adicionar o tileset criada junto as cordenadas que ficará o elemento do tilemap.
         this.plataforma.setCollisionByProperty({ colisor: true }); //Adicionando uma colisão a partir de uma propriedade adicionada nos tiles dentro do Tiled
 
-        //Fazer a câmera seguir o player
-        // this.cameras.main.setBounds(0, 0, this.mapa.widthInPixels, this.mapa.heightInPixels); //Definir os limites do mapa
-        // this.cameras.main.startFollow(this.player);
-
         //Adicionar o player
-        this.player = this.physics.add.sprite(100, 0, 'jogadora').setScale(1.9);
+        this.player = this.physics.add.sprite(100, 0, 'jogadora').setScale(1.9).setSize(28, 50);
         this.player.setCollideWorldBounds(true); //colisão com limites
         this.physics.add.collider(this.player, this.plataforma); //colisão entre player e plataformas
         //Animação do player
@@ -96,13 +92,6 @@ class CiberVentura extends Phaser.Scene {
             framRate: 10,
             repeat: -1
         });
-        this.anims.create({
-            key: 'morrer',
-            frames: this.anims.generateFrameNumbers('jogadora', { start: 14, end: 19 }),
-            frameRate: 1,
-            repeat: 1
-        });
-
 
         //Adicionar os inimigos aleatoriamente
         this.numAleat = Phaser.Math.Between(0, 1);
@@ -149,13 +138,6 @@ class CiberVentura extends Phaser.Scene {
 
         }, null, this);
 
-        //Definir os limites da camera
-        // this.cameras.main.setBounds(0, 0, this.mapa.widthInPixels, this.mapa.heigthInPixels);
-        // //this.cameras.main.startFollow(this.player); //seguir o jogador
-        // if( this.player.x === 300 ){
-        //     this.cameras.main.scrollX(300);
-        // }
-
         //Adicionar as setas
         this.teclado = this.input.keyboard.createCursorKeys();
         //Adicionar a teclas WASD
@@ -163,16 +145,12 @@ class CiberVentura extends Phaser.Scene {
         this.teclaW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.teclaD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-
-
     }
 
     //Adicionar as ações do jogo
     update() {
         //Animar background
         this.bgJogo.tilePositionX += 0.1;
-        //Animar pontos
-        //for(let i = 0; i < )
 
         //Adicionar a movimentação do player
         //Eixo X
@@ -211,7 +189,6 @@ class CiberVentura extends Phaser.Scene {
         //Adicionar inimigos
         if (this.aparecerNovosInimigos === true) {
             //Lógica de local de nascimento de inimigos
-            //this.meioBatalha = 410 + (780-410)/2; //variável para guardar o meio do local onde o player pega os pontos e mata inimigos
             if (this.player.x < 770 || this.player.x > 595) {
                 this.nascerInimigoX = 410;
             }
@@ -232,7 +209,6 @@ class CiberVentura extends Phaser.Scene {
         if (this.inimigo.x > 765 && this.inimigo.x <= 775) {
             this.ida = true; //Variável para indicar se está indo ou voltando
 
-
         }
         if (this.inimigo.x <= 780 && this.ida === true) {
             this.inimigo.setVelocityX(-this.velocidade);
@@ -242,7 +218,6 @@ class CiberVentura extends Phaser.Scene {
         }
         if (this.inimigo.x <= 415 && this.inimigo.x > 405) {
             this.ida = false;
-
 
         }
         if (this.inimigo.x < 780 && this.ida === false) {
@@ -262,30 +237,37 @@ class CiberVentura extends Phaser.Scene {
                 inimigo.disableBody(true, true); //desativar o inimigo
                 player.setVelocityY(-200);
                 this.animar = true;
-                pontAnterior = this.pontuacao;
 
             }
 
             //Matar player
             else {
                 player.disableBody(false, false); //desativar o player
-                this.animar = true;
+                //Adicionar botão para falar que perdeu 
+                this.retangulo = this.add.rectangle(
+                    (this.game.config.width / 4) + 165,
+                    (this.game.config.height / 4) + 115,
+                    200,
+                    50,
+                    0x211C84
+                )
+                this.add.text( //texto do botão
+                    (this.game.config.width / 4) + 80,
+                    (this.game.config.height / 4) + 100,
+                    'PERDEU!',
+                    {
+                        fontSize: '40px',
+                        fill: '#ffffff',
+                        fontFamily: 'glitchRobot'
+                    }
+                );
                 this.time.delayedCall(2000, () => {
-                    this.scene.start('GameOver', this.game);
+                    this.scene.start('GameOver', this.game);//Mover para a cena gameOver dps de um tempo
                 });
-                //Mover para a cena gameOver 
 
             }
 
         }, null, this);
-
-        //Animação de morrer
-        // if (!this.player.body.enable && this.animar === true) {
-        //     this.player.anims.stop();
-        //     this.animar = false;
-        //     this.player.anims.play('morrer', true);
-        //     console.log("aqui");
-        // }
 
     }
 }

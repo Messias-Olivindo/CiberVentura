@@ -236,7 +236,6 @@ class CiberVentura extends Phaser.Scene {
             if (inimigo.body.touching.up && !inimigo.hit) { //precisa ser tocado na parte de cima e não ser acertado nos lados
                 inimigo.disableBody(true, true); //desativar o inimigo
                 player.setVelocityY(-200);
-                this.animar = true;
 
             }
 

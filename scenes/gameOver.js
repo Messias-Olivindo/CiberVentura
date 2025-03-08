@@ -32,20 +32,20 @@ class GameOver extends Phaser.Scene {
 
         //Adicionar botão para reiniciar o jogo
         this.retangulo = this.add.rectangle(
-            (this.game.config.width/4) + 165,
-            (this.game.config.height/4) + 115,
+            (this.game.config.width / 4) + 165,
+            (this.game.config.height / 4) + 115,
             200,
             50,
             0x211C84
         )
-        .setOrigin(0.5)
-        .setInteractive();
+            .setOrigin(0.5)
+            .setInteractive();
         this.retangulo.on('pointerdown', () => {
             this.scene.start('CiberVentura', this.game);
         })
         this.add.text( //texto do botão
-            (this.game.config.width/4) + 80,
-            (this.game.config.height/4) + 100,
+            (this.game.config.width / 4) + 80,
+            (this.game.config.height / 4) + 100,
             'Reiniciar',
             {
                 fontSize: '40px',
@@ -53,7 +53,6 @@ class GameOver extends Phaser.Scene {
                 fontFamily: 'glitchRobot'
             }
         );
-        console.log(pontAnterior);
     }
 
     //Realizar ações

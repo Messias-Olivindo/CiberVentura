@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CiberVentura</title>
 
     <!-- Adicionar o Phaser -->
-    <script src = "https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
     <!-- Adicionar as cenas -->
     <!-- <script src = "../scenes/inicial.js"></script>
     <script src = "../scenes/ciberventura.js"></script>
     <script src = "../scenes/gameOver.js"></script> -->
 
     <!-- Adicionar o estilo -->
-    <style media = 'screen' type = 'text/css'>
+    <style media='screen' type='text/css'>
         /* Estilização do body */
         body {
-            display: flex; 
+            display: flex;
             align-items: center;
             justify-content: justify;
             height: 100 vh;
@@ -32,15 +33,16 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Adicionar uma div para carregar a fonte -->
     <div style="font-family:glitchRobot; position:absolute; left:-1000px; visibility:hidden;">.</div>
-    <script src = "scenes/inicial.js"></script>
-    <script src = "scenes/ciberventura.js"></script>
-    <script src = "scenes/gameOver.js"></script>
+    <script src="scenes/inicial.js"></script>
+    <script src="scenes/ciberventura.js"></script>
+    <script src="scenes/gameOver.js"></script>
 
     <!-- Adicionar o script -->
-    <script type = "text/javascript">
+    <script type="text/javascript">
         //Configurações básicas
         var config = {
             type: Phaser.AUTO, //tipo de renderização
@@ -51,18 +53,19 @@
                 mode: Phaser.Scale.FIT, //Ajustar para caber na tela sem distorcer
                 autoCenter: Phaser.Scale.CENTER, //centralizar a tela de jogo
             },
-            
+
             dom: {
                 createContainer: true, //Permite a criação de elementos html na prórpia cena
             },
             scene: [Inicial, CiberVentura, GameOver], //definição das cenas presentes, usar o nome da classe
-            
+
         }
 
         var game = new Phaser.Game(config); //cria um novo jogo a partir das configurações definidas
-        game.scene.start('CiberVentura'); //define qual vai ser a cena incial, usar nome da key
+        game.scene.start('Inicial'); //define qual vai ser a cena incial, usar nome da key
 
     </script>
-    
+
 </body>
+
 </html>

@@ -1,13 +1,13 @@
-var pontAnterior;
+//Cena jogável
 class CiberVentura extends Phaser.Scene {
     constructor() {
         super({
             key: 'CiberVentura', //nome da cena
-            //  //Adicionar física
+            //Adicionar física
             physics: {
                 default: 'arcade',
                 arcade: {
-                    debug: true, //ativar o debug
+                    debug: false, //ativar o debug
                     gravity: { y: 400 } //definição da gravidade
                 }
             }
@@ -50,17 +50,17 @@ class CiberVentura extends Phaser.Scene {
     //Adicionar os elementos
     create() {
         //Adicionar background
-        this.bgJogo = this.add.tileSprite(this.game.config.width / 2, this.game.config.height/2, (this.game.config.width*2), this.game.config.height, 'bgJogo' );
+        this.bgJogo = this.add.tileSprite(this.game.config.width / 2, this.game.config.height / 2, (this.game.config.width * 2), this.game.config.height, 'bgJogo');
 
         //Adicionar imagens do tutorial
-        this.add.image( 190, 400, 'direita').setScale(0.7);
-        this.add.image( 50, 400, 'esquerda').setScale(0.7);
-        this.add.image( 120, 300, 'pular').setScale(0.65);
-        this.add.image( 350, 250, 'matarRobo').setScale(0.65);
-        this.add.image( 275, 255, 'roboPerigo').setScale(0.65);
-        
-        
-        
+        this.add.image(190, 400, 'direita').setScale(0.7);
+        this.add.image(50, 400, 'esquerda').setScale(0.7);
+        this.add.image(120, 300, 'pular').setScale(0.65);
+        this.add.image(350, 250, 'matarRobo').setScale(0.65);
+        this.add.image(275, 255, 'roboPerigo').setScale(0.65);
+
+
+
         //Adicionar o tilemap
         this.mapa = this.make.tilemap({ key: 'mapaTeste' }); //Criar o tilemap. Usar o nome declarado no preload
         this.tileset = this.mapa.addTilesetImage("tileset", "tiles"); //relacionar o tilemap criado para adicionar os tiles utilizados. Usar o nome do tileset declarado no tiled e relacionar com a key da imagem carregada no preload nos argumentos da função
@@ -163,7 +163,7 @@ class CiberVentura extends Phaser.Scene {
         this.teclaW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.teclaD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        
+
 
     }
 
@@ -214,12 +214,10 @@ class CiberVentura extends Phaser.Scene {
             //this.meioBatalha = 410 + (780-410)/2; //variável para guardar o meio do local onde o player pega os pontos e mata inimigos
             if (this.player.x < 770 || this.player.x > 595) {
                 this.nascerInimigoX = 410;
-                console.log(1);
-                console.log(this.player.x);
             }
             if (this.player > 300 || this.player.x < 595) {
                 this.nascerInimigoX = 770;
-                console.log(2);
+
             }
             //Aumentar a dificuldade
             this.velocidade += 50;
@@ -256,7 +254,6 @@ class CiberVentura extends Phaser.Scene {
         //Animação de morrer
         if (this.player.enableBody === false) {
             this.player.anims.play('morrer', true);
-            this.console.log("aqui");
         }
         //Conflito entre player e inimigo, se o inimigo encostar nas laterais do player ele morre, se o plaver pular na cabeça dele o inimigo morre. Dever ser atualizado assim que adicionar novos inimigos -- futuramente trocar para o inimigo atacando o player e o player atacando o inimigo
         this.physics.add.overlap(this.player, this.inimigo, (player, inimigo) => {
@@ -266,14 +263,13 @@ class CiberVentura extends Phaser.Scene {
                 player.setVelocityY(-200);
                 this.animar = true;
                 pontAnterior = this.pontuacao;
-                
+
             }
 
             //Matar player
             else {
                 player.disableBody(false, false); //desativar o player
                 this.animar = true;
-                console.log("bora")
                 this.time.delayedCall(2000, () => {
                     this.scene.start('GameOver', this.game);
                 });

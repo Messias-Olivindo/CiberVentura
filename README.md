@@ -4,7 +4,7 @@ Link do jogo: [CiberVentura](https://messias-olivindo.github.io/CiberVentura/)
 
 
 ## 📖 História
-Uma ciborgue fora da lei tem que pegar o máximo de orbes valiosos possível, para isso ela terá que enfrentar robô policiais e tentar não ser capturada por eles.
+Uma ciborgue fora da lei tem que pegar o máximo de orbes valiosos possível, para isso ela terá que enfrentar robôs policiais e tentar não ser capturada por eles.
 
 ## 🎮 Controles 
 - **W** ou **set p/cima** para **pular**.
@@ -12,4 +12,4 @@ Uma ciborgue fora da lei tem que pegar o máximo de orbes valiosos possível, pa
 - **A** ou **seta p/esquerda** para ir à **esquerda**.
 
 ## 🎯 Objetivo
-- Realizar o máximo de pontos possíveis capturando os orbes espalhados pelo mapae eliminar os robôs policiais pulando encima deles sem encostarem em suas laterais.
+- Realizar o máximo de pontos possíveis capturando os orbes espalhados pelo mapa e eliminar os robôs policiais pulando encima deles sem encostarem em suas laterais.
